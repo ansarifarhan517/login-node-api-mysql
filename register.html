@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Register | Practise</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5 col-md-4 offset-md-4">
+        <h3 class="display-4 mb-3">Register Page</h3>
+        <form action="">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Enter Username"
+                    aria-describedby="helpId">
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password"
+                    aria-describedby="helpId">
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
+                    placeholder="Enter Confirm Password" aria-describedby="helpId">
+                <div class="invalid-feedback"></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+        </form>
+        <p class="lead text-center mt-2">Have Already Account ?<a href="login.html"> Login</a></p>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const form = document.querySelector('form');
+        const username = document.querySelector('#username');
+        const password = document.querySelector('#password');
+        const confirmPassword = document.querySelector('#confirmPassword');
+
+        username.addEventListener('keyup', validateUsername);
+        password.addEventListener('keyup', validatePassword);
+        confirmPassword.addEventListener('keyup', validateConfirmPassword);
+        form.addEventListener('submit', onSubmit);
+
+
+        function validateUsername() {
+            if (username.value === '') {
+                username.classList.add('is-invalid');
+                username.classList.remove('is-valid');
+                username.nextElementSibling.innerHTML = 'Please Enter Username'
+                return false;
+            }
+            else {
+                username.classList.add('is-valid');
+                username.classList.remove('is-invalid');
+                return true;
+            }
+
+        }
+        function validatePassword() {
+            if (password.value === '') {
+                password.classList.add('is-invalid');
+                password.classList.remove('is-valid');
+                password.nextElementSibling.innerHTML = 'Please Enter Password'
+                return false;
+            }
+            else {
+                password.classList.add('is-valid');
+                password.classList.remove('is-invalid');
+                return true;
+            }
+
+            // if (password.length <= 3) {
+
+            //     password.classList.add('is-invalid');
+            //     password.classList.remove('is-valid');
+            //     password.nextElementSibling.innerHTML = 'Please Enter Password more than 3 charcter'
+            //     return false;
+            // }
+
+
+        }
+        function validateConfirmPassword() {
+            if (confirmPassword.value === '') {
+                confirmPassword.classList.add('is-invalid');
+                confirmPassword.classList.remove('is-valid');
+                confirmPassword.nextElementSibling.innerHTML = 'Please Enter Confirm Password'
+                return false;
+            }
+            else if (confirmPassword.value != password.value) {
+
+                confirmPassword.classList.add('is-invalid');
+                confirmPassword.classList.remove('is-valid');
+                confirmPassword.nextElementSibling.innerHTML = 'Please Enter same as Password'
+                return false;
+            }
+            else {
+                confirmPassword.classList.add('is-valid');
+                confirmPassword.classList.remove('is-invalid');
+                return true;
+            }
+        }
+        function isValid() {
+            const validUsername = validateUsername();
+            const validPassword = validatePassword();
+            const validConfirmPassword = validateConfirmPassword();
+            return validUsername && validPassword && validConfirmPassword;
+        }
+        function onSubmit(e) {
+            e.preventDefault();
+            if (!isValid()) {
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: "http://localhost:3000/api/register",
+                data: {
+                    username: username.value,
+                    password: password.value
+                },
+                success: (response) => {
+                    console.log(response)
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+
+            });
+        }
+
+
+    </script>
+</body>
+
+</html>
