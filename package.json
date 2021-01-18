@@ -4,11 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
-    "start":"nodemon index",
-=======
     "start": "nodemon index",
->>>>>>> 828c4207970ed93000839878878a7a1aa0c608e3
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Farhan Ansari",

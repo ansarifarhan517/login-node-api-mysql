@@ -2,7 +2,7 @@ const express = require('express');
 const port = process.env.port || 3000;
 const app = express();
 const cors = require('cors');
-const auth = require('./middleware/auth');
+// const auth = require('./middleware/auth');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -12,9 +12,9 @@ app.get('/', (req, res) => {
     res.send('Welcome To Fisrt Page')
 });
 
-app.use(auth)
+// app.use(auth);
 
-app.use('/api/account', require('./api/account'))
+app.use('/api/account', require('./api/account'));
 
 
 

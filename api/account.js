@@ -11,34 +11,33 @@ router.post('/register', (req, res) => {
     const connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
-        password: 'password',
+        password: '',
         database: 'mysql_node_farhan'
     });
     connection.connect();
-    connection.query(query, [username], (err, results) => {
+    connection.query(query, username, (err, results) => {
         if (err) {
-            res.status(400).json(err);
-        
+            res.status(500).json(err);
         }
-            else if (results.length > 0) {
+        else if (results.length > 0) {
             //email already exist
             res.status(500).json('Record Already exist');
         }
         else {
-          const  query2 = `INSERT INTO register SET ?;`;
-          const  data={
-              username:username,
-              password:password
-          }  
-            connection.query(query2,data, (err, results) => {
+            const query2 = `INSERT INTO register SET ?;`;
+            const data = {
+                username: username,
+                password: password
+            }
+            connection.query(query2, data, (err, results) => {
                 if (err) {
-                    res.status(400).json(err);
+                    res.status(500).json(err);
                 }
-                 else {
-                //     const body = data;
-                //     body.id = results.insertId;
+                else {
+                    //     const body = data;
+                    //     body.id = results.insertId;
                     res.status(201).json(results[0]);
-                    location.href('login.html')
+                    // location.href('http://127.0.0.1:5500/login.html')
                 }
             });
         }
@@ -52,16 +51,16 @@ router.post('/login', (req, res) => {
     const connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
-        password: 'password',
+        password: '',
         database: 'mysql_node_farhan'
     });
     connection.connect();
-    connection.query(query, [username, password], (err, results) => {
+    connection.query(query,[username, password], (err,results) => {
         if (err) {
             res.status(500).json(err);
         }
-        res.status(200).json(results[0]);
-        if (results.length > 0) {
+     
+       else  if (results.length > 0) {
             const secretKey = 'farhan123';
             const payload = {
                 id: results[0].id,
@@ -74,8 +73,9 @@ router.post('/login', (req, res) => {
                 if (err) {
                     res.status(500).json(err);
                 }
-                res.json({ token })
-            })
+                res.json(token);
+            });
+             res.status(200).json(results[0]);
         }
         else {
             res.status(404).json();
