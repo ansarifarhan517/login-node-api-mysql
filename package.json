@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "start":"nodemon index",
+=======
+    "start": "nodemon index",
+>>>>>>> 828c4207970ed93000839878878a7a1aa0c608e3
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Farhan Ansari",
@@ -14,6 +18,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jquery": "^3.5.1",
+    "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.7"
   }

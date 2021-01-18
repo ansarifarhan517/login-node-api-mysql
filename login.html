@@ -94,7 +94,21 @@
             if (!isValid()) {
                 return;
             }
-            console.log('aPI C')
+            $.ajax({
+                type: 'POST',
+                url: "http://localhost:3000/api/login",
+                data: {
+                    username: username.value,
+                    password: password.value
+                },
+                success: (response) => {
+                    console.log(response);
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+
+            });
         }
     </script>
 </body>
