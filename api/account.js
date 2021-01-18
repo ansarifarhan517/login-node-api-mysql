@@ -16,25 +16,31 @@ router.post('/register', (req, res) => {
     });
     connection.connect();
     connection.query(query, [username], (err, results) => {
-        if (err) res.status(400).json(err);
-        else if (results.length > 0) {
+        if (err) {
+            res.status(400).json(err);
+        
+        }
+            else if (results.length > 0) {
             //email already exist
             res.status(500).json('Record Already exist');
         }
         else {
-            query = `INSERT INTO register SET ?;`;
-
-            connection.query(query, [username, password], (err, results) => {
+          const  query2 = `INSERT INTO register SET ?;`;
+          const  data={
+              username:username,
+              password:password
+          }  
+            connection.query(query2,data, (err, results) => {
                 if (err) {
                     res.status(400).json(err);
                 }
-                else {
-                    const body = data;
-                    body.id = results.insertId;
+                 else {
+                //     const body = data;
+                //     body.id = results.insertId;
                     res.status(201).json(results[0]);
                     location.href('login.html')
                 }
-            })
+            });
         }
     });
 });
