@@ -9,41 +9,37 @@ router.post('/register', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    let query = `SELECT * FROM register WHERE username = ?;`;
+    let query = `SELECT * FROM users WHERE username = ?;`;
     const connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'mysql_node_farhan'
+        database: 'sisapi_db'
     });
     connection.connect();
     connection.query(query, [username], (err, results) => {
         if (err) {
             res.status(500).json(err);
-        }
-        else if (results.length > 0) {
+        } else if (results.length > 0) {
             //email already exist
             res.status(500).json('Record Already exist');
-        }
-        else {
-            bcrypt.hash(password, saltRounds, function (err, hash) {
+        } else {
+            bcrypt.hash(password, saltRounds, function(err, hash) {
                 // Store hash in your password DB.
                 if (err) {
                     res.status(500).json(err);
-                }
-                else {
+                } else {
                     const data = {
                         username: username,
                         password: hash
                     }
 
-                    const query2 = `INSERT INTO register SET ?;`;
+                    const query2 = `INSERT INTO users SET ?;`;
                     console.log(data);
                     connection.query(query2, data, (err, results) => {
                         if (err) {
                             res.status(500).json(err);
-                        }
-                        else {
+                        } else {
                             console.log(results);
                             const body = [data];
                             body.id = results.insertId;
@@ -61,28 +57,25 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    const query = 'SELECT * FROM register WHERE username = ? AND password = ?';
+    const query = 'SELECT * FROM users WHERE username = ?';
     const connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'mysql_node_farhan'
+        database: 'sisapi_db'
     });
     connection.connect();
-    connection.query(query, [username, password], (err, results) => {
+    connection.query(query, [username], (err, results) => {
         if (err) {
             res.status(500).json(err);
-        }
+        } else if (results.length > 0) {
 
-        else if (results.length > 0) {
-
-            const user = results[0].username;
+            // const user = results[0].username;
             const passwordHash = results[0].password;
             bcrypt.compare(password, passwordHash, (err, bcryptResults) => {
                 if (err) {
                     res.status(500).json(err);
-                }
-                else {
+                } else {
                     if (bcryptResults) {
                         const secretKey = 'farhan123';
                         const payload = {
@@ -96,23 +89,28 @@ router.post('/login', (req, res) => {
                             if (err) {
                                 res.status(500).json(err);
                             }
-                            res.status(200).json(user, token);
+                            res.status(200).json({ payload, token });
                         });
-                       
-                    }
-                    else {
+
+                    } else {
                         res.status(401).json();
                     }
                 }
             });
 
-        }
-        else {
+        } else {
             res.status(401).json();
         }
     });
 
 
+});
+
+router.post('/authorized', (req, res) => {
+
+    res.json({
+        authorization: true
+    })
 });
 
 

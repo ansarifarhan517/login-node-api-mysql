@@ -12,7 +12,7 @@ const auth = (req, res, next) => {
         const [scheme, token] = authorization.split(' ');
         if (token) {
             const secretKey = 'farhan123';
-            jwt.verify(token, secretKey, (err) => {
+            jwt.verify(token, secretKey, (err, payload) => {
                 if (err) {
                     res.status(401).json();
                 }

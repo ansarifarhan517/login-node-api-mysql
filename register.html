@@ -11,26 +11,23 @@
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 
-<body>
+<body class="d-none">
     <div class="container mt-5 col-md-4 offset-md-4">
         <h3 class="display-4 mb-3">Register Page</h3>
         <form action="">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" name="username" id="username" class="form-control" placeholder="Enter Username"
-                    aria-describedby="helpId">
+                <input type="text" name="username" id="username" class="form-control" placeholder="Enter Username" aria-describedby="helpId">
                 <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password"
-                    aria-describedby="helpId">
+                <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" aria-describedby="helpId">
                 <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">
                 <label for="confirmPassword">Confirm Password</label>
-                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
-                    placeholder="Enter Confirm Password" aria-describedby="helpId">
+                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Enter Confirm Password" aria-describedby="helpId">
                 <div class="invalid-feedback"></div>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Submit</button>
@@ -43,11 +40,15 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/app.js"></script>
     <script>
-        $(function(){
+        $(function() {
             const user = localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY);
-            if(user){
+            if (user) {
                 location.href = `${CONSTANTS.APP_URL}dashboard.html`;
+            } else {
+                $('body').removeClass('d-none');
+
             }
         });
         const form = document.querySelector('form');
@@ -67,22 +68,21 @@
                 username.classList.remove('is-valid');
                 username.nextElementSibling.innerHTML = 'Please Enter Username'
                 return false;
-            }
-            else {
+            } else {
                 username.classList.add('is-valid');
                 username.classList.remove('is-invalid');
                 return true;
             }
 
         }
+
         function validatePassword() {
             if (password.value === '') {
                 password.classList.add('is-invalid');
                 password.classList.remove('is-valid');
                 password.nextElementSibling.innerHTML = 'Please Enter Password'
                 return false;
-            }
-            else {
+            } else {
                 password.classList.add('is-valid');
                 password.classList.remove('is-invalid');
                 return true;
@@ -98,63 +98,61 @@
 
 
         }
+
         function validateConfirmPassword() {
             if (confirmPassword.value === '') {
                 confirmPassword.classList.add('is-invalid');
                 confirmPassword.classList.remove('is-valid');
                 confirmPassword.nextElementSibling.innerHTML = 'Please Enter Confirm Password'
                 return false;
-            }
-            else if (confirmPassword.value != password.value) {
+            } else if (confirmPassword.value != password.value) {
 
                 confirmPassword.classList.add('is-invalid');
                 confirmPassword.classList.remove('is-valid');
                 confirmPassword.nextElementSibling.innerHTML = 'Please Enter same as Password'
                 return false;
-            }
-            else {
+            } else {
                 confirmPassword.classList.add('is-valid');
                 confirmPassword.classList.remove('is-invalid');
                 return true;
             }
         }
+
         function isValid() {
             const validUsername = validateUsername();
             const validPassword = validatePassword();
             const validConfirmPassword = validateConfirmPassword();
             return validUsername && validPassword && validConfirmPassword;
         }
+
         function onSubmit(e) {
             e.preventDefault();
             if (!isValid()) {
                 return;
-            }
-            else {
+            } else {
                 const data = {
                     username: username.value,
                     password: password.value,
                 };
                 $.ajax({
                     type: 'POST',
-                    url: "http://localhost:3000/api/account/register",
+                    url: `${CONSTANTS.API_URL}account/register`,
                     datatype: 'json',
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     success: (response) => {
                         // console.log(response)
-                        localStorage.setItem(CONSTANTS.LOCAL_STORAGE_KEY,JSON.stringify(response));
+                        localStorage.setItem(CONSTANTS.LOCAL_STORAGE_KEY, JSON.stringify(response));
                         location.href = `${CONSTANTS.APP_URL}dashboard.html`;
                     },
                     error: (err) => {
                         console.log(err)
-                        
+
                     }
 
                 });
             }
         }
-
-
     </script>
 </body>
 
