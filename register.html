@@ -123,22 +123,26 @@
             if (!isValid()) {
                 return;
             }
-           
-            $.ajax({
-                type: 'POST',
-                url: "http://localhost:3000/api/register",
-                data: {
+            else {
+                const data = {
                     username: username.value,
-                    password: password.value
-                },
-                success: (response) => {
-                    console.log(response)
-                },
-                error: (err) => {
-                    console.log(err)
-                }
+                    password: password.value,
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: "http://localhost:3000/api/account/register",
+                    datatype: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: (response) => {
+                        console.log(response)
+                    },
+                    error: (err) => {
+                        console.log(err)
+                    }
 
-            });
+                });
+            }
         }
 
 

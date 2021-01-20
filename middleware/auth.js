@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
     //check requested route is login and registered
-    if (req.path.includes('login')) {
+    if (req.path.includes('login') || req.path.includes('register')) {
         next();
         return;
     }

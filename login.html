@@ -10,6 +10,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
+
 <body>
     <div class="container mt-5 col-md-4 offset-md-4">
         <h3 class="display-4 mb-3">Login Page</h3>
@@ -87,29 +88,35 @@
         function isValid() {
             const validUsername = validateUsername();
             const validPassword = validatePassword();
-            return validUsername && validPassword ;
+            return validUsername && validPassword;
         }
         function onSubmit(e) {
             e.preventDefault();
             if (!isValid()) {
                 return;
             }
-            $.ajax({
-                type: 'POST',
-                url: "http://localhost:3000/api/login",
-                data: {
+            else {
+                const data = {
                     username: username.value,
-                    password: password.value
-                },
-                success: (response) => {
-                    console.log(response);
-                },
-                error: (err) => {
-                    console.log(err);
-                }
+                    password: password.value,
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: "http://localhost:3000/api/account/login",
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: (response) => {
+                        console.log(response);
+                    },
+                    error: (err) => {
+                        console.log(err);
+                    }
 
-            });
+                });
+            }
         }
     </script>
 </body>
+
 </html>
