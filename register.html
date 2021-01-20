@@ -44,6 +44,12 @@
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        $(function(){
+            const user = localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY);
+            if(user){
+                location.href = `${CONSTANTS.APP_URL}dashboard.html`;
+            }
+        });
         const form = document.querySelector('form');
         const username = document.querySelector('#username');
         const password = document.querySelector('#password');
@@ -135,10 +141,13 @@
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     success: (response) => {
-                        console.log(response)
+                        // console.log(response)
+                        localStorage.setItem(CONSTANTS.LOCAL_STORAGE_KEY,JSON.stringify(response));
+                        location.href = `${CONSTANTS.APP_URL}dashboard.html`;
                     },
                     error: (err) => {
                         console.log(err)
+                        
                     }
 
                 });
