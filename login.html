@@ -114,10 +114,14 @@
                     success: (response) => {
                         // console.log(response);
                         localStorage.setItem(CONSTANTS.LOCAL_STORAGE_KEY, JSON.stringify(response));
-                        location.href = `${CONSTANTS.APP_URL}dashboard.html`;
+                         location.href = `${CONSTANTS.APP_URL}dashboard.html`;
                     },
                     error: (err) => {
-                        console.log(err);
+                        if (error.status === 401) {
+                            alert('Invalid credentials');
+                        } else {
+                            alert('Something went wrong');
+                        }
                     }
                 });
             }
