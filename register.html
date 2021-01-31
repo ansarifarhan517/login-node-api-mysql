@@ -43,7 +43,7 @@
     <script src="./js/app.js"></script>
     <script>
         $(function() {
-            const user = localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY);
+            const user = JSON.parse(localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY));
             if (user) {
                 location.href = `${CONSTANTS.APP_URL}dashboard.html`;
             } else {
@@ -136,7 +136,7 @@
                 };
                 $.ajax({
                     type: 'POST',
-                    url: `${CONSTANTS.API_URL}account/register`,
+                    url: `${CONSTANTS.API_URL}accounts/register`,
                     datatype: 'json',
                     contentType: 'application/json',
                     data: JSON.stringify(data),

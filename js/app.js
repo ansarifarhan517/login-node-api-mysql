@@ -5,7 +5,7 @@ const CONSTANTS = {
 }
 
 function isAuthorized() {
-    const user = localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY);
+    const user = JSON.parse(localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY));
     if (!user) {
         location.href = `${CONSTANTS.APP_URL}login.html`;
 
@@ -25,8 +25,8 @@ function isAuthorized() {
             error: (error) => {
                 console.log(error)
                 if (error.status === 401) {
-                    // console.log("is authorized ki api mein error hai")
-                    // location.href = `${CONSTANTS.APP_URL}login.html`;
+                    //  console.log("is authorized ki api mein error hai")
+                 location.href = `${CONSTANTS.APP_URL}login.html`;
                 } else {
                     alert('Something when wrong');
                 }

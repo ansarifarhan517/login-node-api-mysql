@@ -112,7 +112,7 @@ router.post('/login', (req, res) => {
 });
 
 router.post('/authorized', (req, res) => {
-    res.status(200).json({
+    res.json({
         authorized: true
     });
 });
