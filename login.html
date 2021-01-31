@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html lang="en">
 
@@ -129,4 +130,137 @@
     </script>
 </body>
 
+=======
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Login | Practise</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body class="d-none">
+    <div class="container mt-5 col-md-4 offset-md-4">
+        <h3 class="display-4 mb-3">Login Page</h3>
+        <form action="">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Enter Username" aria-describedby="helpId">
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" aria-describedby="helpId">
+                <div class="invalid-feedback"></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+        </form>
+        <p class="lead text-center mt-2">Not Registered ?<a href="register.html"> Create an Account</a></p>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/app.js"></script>
+
+    <script>
+        $(function() {
+            const user = localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY)
+            if (user) {
+                location.href = `${CONSTANTS.APP_URL}dashboard.html`
+            } else {
+                $('body').removeClass('d-none');
+
+            }
+        });
+        const form = document.querySelector('form');
+        const username = document.querySelector('#username');
+        const password = document.querySelector('#password');
+
+        username.addEventListener('keyup', validateUsername);
+        password.addEventListener('keyup', validatePassword);
+        form.addEventListener('submit', onSubmit);
+
+        function validateUsername() {
+            if (username.value === '') {
+                username.classList.add('is-invalid');
+                username.classList.remove('is-valid');
+                username.nextElementSibling.innerHTML = 'Please Enter Username'
+                return false;
+            } else {
+                username.classList.add('is-valid');
+                username.classList.remove('is-invalid');
+                return true;
+            }
+
+        }
+
+        function validatePassword() {
+            if (password.value === '') {
+                password.classList.add('is-invalid');
+                password.classList.remove('is-valid');
+                password.nextElementSibling.innerHTML = 'Please Enter Password'
+                return false;
+            } else {
+                password.classList.add('is-valid');
+                password.classList.remove('is-invalid');
+                return true;
+            }
+
+            // if (password.length <= 3) {
+
+            //     password.classList.add('is-invalid');
+            //     password.classList.remove('is-valid');
+            //     password.nextElementSibling.innerHTML = 'Please Enter Password more than 3 charcter'
+            //     return false;
+            // }
+        }
+
+        function isValid() {
+            const validUsername = validateUsername();
+            const validPassword = validatePassword();
+            return validUsername && validPassword;
+        }
+
+        function onSubmit(e) {
+            e.preventDefault();
+            if (!isValid()) {
+                return;
+            } else {
+                const data = {
+                    username: username.value,
+                    password: password.value,
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: `${CONSTANTS.API_URL}account/login`,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: (response) => {
+                        // console.log(response);
+                        localStorage.setItem(CONSTANTS.LOCAL_STORAGE_KEY, JSON.stringify(response));
+                         location.href = `${CONSTANTS.APP_URL}dashboard.html`;
+                    },
+                    error: (err) => {
+                        if (error.status === 401) {
+                            alert('Invalid credentials');
+                        } else {
+                            alert('Something went wrong');
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+>>>>>>> 14718d19f509437d1d654d188e72c083d48faabf
 </html>
